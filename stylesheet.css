@@ -129,3 +129,7 @@
   span.highlight {
     background-color: #ffffd0;
   }
+
+  #profile_pic {
+    border-radius: 50%;
+  }
