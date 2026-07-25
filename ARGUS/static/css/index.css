@@ -354,6 +354,12 @@ body {
   justify-content: center; /* was space-between */
 }
 
+.video_grid_container2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* was space-between */
+}
+
 .video_grid {
   flex-basis: calc(33% - 20px);
   margin: 10px;
@@ -363,6 +369,14 @@ body {
 .video_row {
     display: flex;
     justify-content: center;   /* was space-between */
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;                /* <-- this is the key fix */
+}
+
+.video_row2 {
+    display: flex;
+    justify-content: space-between;   /* was space-between */
     gap: 20px;
     margin-bottom: 20px;
     width: 100%;                /* <-- this is the key fix */
