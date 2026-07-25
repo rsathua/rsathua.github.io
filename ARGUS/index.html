@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ARGUS: Aligning Robot Geometry Under Shifting Views with Large 3D Vision Models">
+  <meta name="keywords" content="ARGUS, VGGT">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ARGUS: Aligning Robot Geometry Under Shifting Views</title>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://rsathua.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://arjung128.github.io/svm/">
+            Servoing with Vision Models
+          </a>
+          <a class="navbar-item" href="https://arjung128.github.io/opening-cabinets-and-drawers/">
+            MOSART
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ARGUS: <u>A</u>ligning <u>R</u>obot Scene <u>G</u>eometry <u>U</u>nder <u>S</u>hifting Views with Large 3D Vision Models</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://rsathua.github.io/">Rishik Sathua</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://haonan16.github.io/">Haonan Chen</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://krdc.web.illinois.edu/">Katherine Driggs-Campbell</a><sup>1</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Illinois at Urbana-Champaign,</span>
+            <span class="author-block"><sup>2</sup>Harvard University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!--<span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              </span>-->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="has-text-centered">
+        <img src="./videos/teaser.gif" width="720">
+      </div>
+      <h2 class="subtitle has-text-centered">
+        With ARGUS, we can efficiently train policies that maintain strong performance despite dramatic viewpoint changes.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <!-- <h2 class="title is-3">Overview</h2> -->
+      </div>
+    </div>
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <img src="./images/teaser_cropped.png">
+        <div class="content has-text-justified">
+          <p>
+            Large-scale visuomotor policies have demonstrated impressive performance across a wide range 
+            of robot manipulation tasks. However, despite this success, manipulation polices often entangle 
+            scene geometry with the corresponding viewpoint, learning where objects lie in an image rather 
+            than where it lies in the task space. This entanglement inherently limits the corresponding 
+            policy's ability to learn from viewpoint-diverse datasets (ex. DROID, BridgeV2) and generalize 
+            beyond the viewpoints captured in their training data. 
+          </p>
+          <p>
+            In this work, we present ARGUS, an observation pre-processing pipeline that uses large-scale 3D 
+            vision models to align image observations from arbitrary camera viewpoints into a canonical 
+            viewpoint before passing it to downstream visuomotor policies. Experiments across training datasets 
+            with varying levels of viewpoint diversity, from fixed multi-view camera configurations to highly 
+            varied camera placements, show that our method consistently outperforms prior approaches across both 
+            limited-view and view-diverse training regimes. In efficiency comparisons, ARGUS demonstrates 
+            an ability to learn from view-diverse data, achieving high success rates <b>4–6×</b> faster than previous 
+            methods by leveraging a simplified observation space. Overall, our findings indicate that, by 
+            leveraging knowledge from 3D vision models, ARGUS reduces the learning burden on general 
+            visuomotor policies and takes a step toward the efficient utilization of large-scale robot datasets.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-widescreen">
+    <div class="rows">
+      <div class="rows is-centered">
+        <div class="row is-full-width">
+          <h2 class="title is-3 has-text-centered">Canonical Visualization</h2>
+          <div id="diverse" class="container tabcontent" style="display: block;">
+              <h2 class="subtitle is-5" style="text-align:center;">Given synchronized left and right camera views, we compute a canonical reprojection that is passed to downstream visuomotor policies as a viewpoint-invariant visual representation.</h2>
+              <p><strong>Put Marker In Cup</strong></p>
+              <div class="video_grid_container"> <!-- This is the new container for the flex display -->
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/marker_left.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Left Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/marker_right.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Right Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/marker_canonical.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Canonical Rendering</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                
+              </div>
+              <p><strong>Unfold Towel</strong></p>
+              <div class="video_grid_container"> <!-- This is the new container for the flex display -->
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/towel_left.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Left Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/towel_right.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Right Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/towel_canonical.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Canonical Rendering</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                
+              </div>
+              <p><strong>Put Brush in Bowl</strong></p>
+              <div class="video_grid_container"> <!-- This is the new container for the flex display -->
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/brush_left.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Left Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/brush_right.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Right Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/brush_canonical.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Canonical Rendering</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                
+              </div>
+              <p><strong>Stack Blocks</strong></p>
+              <div class="video_grid_container"> <!-- This is the new container for the flex display -->
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/stack_blocks_left.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Left Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/stack_blocks_right.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Right Camera</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Canonical/stack_blocks_canonical.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Canonical Rendering</p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+        </div> 
+      </div>
+    </div>
+  </div> <!-- rows --> 
+</section>
+
+<section class="section">
+  <div class="container is-max-widescreen">
+    <div class="rows">
+      <div class="rows is-centered">
+        <div class="row is-full-width">
+          <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+
+          <div id="tabBox1">
+            <div class="tabs is-boxed is-centered">
+              <ul>
+                <li id="clickDefault" class="tablinks is-active" onclick="openTab(event, 'diverse', 'tabBox1')"><a>Diverse Viewpoint Training Data</a></li>
+                <li class="tablinks" onclick="openTab(event, 'fixed', 'tabBox1')"><a>Limited viewpoint Training Data</a></li>
+              </ul>
+            </div>
+            <div id="diverse" class="container tabcontent" style="display: block;">
+              <h2 class="subtitle is-5" style="text-align:center;">The following policies were trained on datasets containing substantial variation in camera placement.</h2>
+              <div class="video_grid_container"> <!-- This is the new container for the flex display -->
+                <p><strong>Put Marker In Cup</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/marker_argus_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/marker_dp_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/marker_kyc_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>KYC + Diffusion Policy</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                <p><strong>Unfold Towel</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/towel_argus_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/towel_dp_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/towel_kyc_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>KYC + Diffusion Policy</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                <p><strong>Put Brush In Bowl</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/brush_argus_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/brush_dp_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/brush_kyc_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>KYC + Diffusion Policy</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                  <p><strong>Stack Blocks</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/stack_blocks_argus_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/stack_blocks_dp_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/Div/stack_blocks_kyc_div.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>KYC + Diffusion Policy</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div id="fixed" class="container tabcontent" style="display: none;">
+              
+              <h2 class="subtitle is-5" style="text-align:center;">The following policies were trained on datasets collected from a single fixed multi-view camera configuration.</h2>
+              <div class="video_grid_container"> <!-- This is the new container for the flex display -->
+                <p><strong>Put Marker In Cup</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/marker_argus_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/marker_dp_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p><strong>Stack Blocks 2</strong></p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/marker_vista_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>VISTA + Diffusion Policy</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                <p><strong>Unfold Towel</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/towel_argus_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/towel_dp_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/towel_vista_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>VISTA + Diffusion Policy</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                <p><strong>Put Brush In Bowl</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/brush_argus_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/brush_dp_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/brush_vista_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>VISTA + Diffusion Policy</p>
+                  </div>
+                </div>
+                <div class="video-divider"></div>
+                  <p><strong>Stack Blocks</strong></p>
+                <div class="video_row">
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/stack_blocks_argus_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>ARGUS + Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/stack_blocks_dp_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>Classic Diffusion Policy</p>
+                  </div>
+                  <div class="video_grid">
+                    <div class="video_grid_item"><div class="vsc-controller"></div>
+                      <video class="grid-video training" autoplay="" muted="" loop="" playsinline="" height="40%">
+                        <source src="videos/ZS/stack_blocks_vista_zs.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <p>VISTA + Diffusion Policy</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div> <!-- rows --> 
+</section>
+
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section> -->
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-centered">
+          <p>
+            Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> and <a href="https://haonan16.github.io/stow_page/">Stow</a>. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
