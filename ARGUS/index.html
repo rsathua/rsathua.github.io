@@ -202,7 +202,59 @@
     <div class="rows">
       <div class="rows is-centered">
         <div class="row is-full-width">
-          <h2 class="title is-3 has-text-centered">Canonical Visualization</h2>
+          <h2 class="title is-3 has-text-centered mb-1">Interactive Dataset Visualizer</h2>
+          <p class="d-md-block d-none has-text-centered is-size-5 mt-1 mb-4">(Showing random trajectory of 100 trajectories from put marker in cup dataset)</p>
+
+          <div class="video_grid_container">
+            <div class="video_row">
+              <div class="video_grid">
+                <div class="video_grid_item"><div class="vsc-controller"></div>
+                  <video id="sample-cam0" class="grid-video training" autoplay muted loop playsinline height="40%">
+                    <source id="sample-cam0-src" src="" type="video/mp4">
+                  </video>
+                </div>
+                <p>Left Camera</p>
+              </div>
+              <div class="video_grid">
+                <div class="video_grid_item"><div class="vsc-controller"></div>
+                  <video id="sample-cam1" class="grid-video training" autoplay muted loop playsinline height="40%">
+                    <source id="sample-cam1-src" src="" type="video/mp4">
+                  </video>
+                </div>
+                <p>Right Camera</p>
+              </div>
+              <div class="video_grid">
+                <div class="video_grid_item"><div class="vsc-controller"></div>
+                  <video id="sample-canonical" class="grid-video training" autoplay muted loop playsinline height="40%">
+                    <source id="sample-canonical-src" src="" type="video/mp4">
+                  </video>
+                </div>
+                <p>Canonical Rendering</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="has-text-centered" style="margin-bottom: 20px;">
+            <button id="resample-btn" class="button is-rounded is-dark" onclick="resampleTrajectory()">
+              <span class="icon">
+                <i class="fas fa-random"></i>
+              </span>
+              <span>Resample Trajectory</span>
+            </button>
+          </div>
+
+        </div> 
+      </div>
+    </div>
+  </div> <!-- rows --> 
+</section>
+
+<section class="section">
+  <div class="container is-max-widescreen">
+    <div class="rows">
+      <div class="rows is-centered">
+        <div class="row is-full-width">
+          <h2 class="title is-3 has-text-centered">Rollout Canonical Visualizations</h2>
           <div id="canonical" class="container" style="display: block;">
               <h2 class="subtitle is-5" style="text-align:center;">Given synchronized left and right camera views, we compute a canonical reprojection that is passed to downstream visuomotor policies as a viewpoint-invariant visual representation.</h2>
               <p><strong>Put Marker In Cup</strong></p>
@@ -623,4 +675,28 @@
 </footer>
 
 </body>
+
+<script>
+  function resampleTrajectory() {
+    const demoIdx = Math.floor(Math.random() * 100); // 0 to 99 inclusive
+    const base = `website_data/put_marker_in_cup/put_marker_in_cup/demo_${demoIdx}`;
+
+    const videoSpecs = [
+      { videoId: 'sample-cam0', srcId: 'sample-cam0-src', file: 'cam_0_rgb.mp4' },
+      { videoId: 'sample-cam1', srcId: 'sample-cam1-src', file: 'cam_1_rgb.mp4' },
+      { videoId: 'sample-canonical', srcId: 'sample-canonical-src', file: 'canonical_rgb.mp4' },
+    ];
+
+    videoSpecs.forEach(({ videoId, srcId, file }) => {
+      const video = document.getElementById(videoId);
+      const source = document.getElementById(srcId);
+      source.src = `${base}/${file}`;
+      video.load();
+      video.play();
+    });
+  }
+
+  // Optionally load an initial random sample on page load
+  document.addEventListener('DOMContentLoaded', resampleTrajectory);
+</script>
 </html>
